@@ -1,7 +1,7 @@
 import unittest 
 
 from textnode import TextNode, TextType
-from markdown_splitter import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from markdown_splitter import split_nodes_delimiter, split_nodes_image, split_nodes_link, markdown_to_blocks
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_bold_delimiter(self):
@@ -137,3 +137,24 @@ class TestSplitNodesDelimiter(unittest.TestCase):
             ],
             new_nodes,
         )
+
+def test_markdown_to_blocks(self):
+    markdown = """
+    This is a **bolded phrase** text
+
+    This is another paragraph with _italic_ text and `code block` text.
+    This is the same paragraph on a new line
+
+    - This is a list
+    - with several items
+    """
+    
+    blocks = markdown_to_blocks(markdown)
+    self.assertEqual(
+        blocks,
+        [
+            "This is a **bolded phrase** text",
+            "This is another paragraph with _italic_ text and `code block` text.\nThis is the same paragraph on a new line",
+            "- This is a list\n- with several items"
+        ]
+    )
