@@ -22,3 +22,10 @@ def text_to_textnodes(text):
     nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC_TEXT)
     nodes = split_nodes_delimiter(nodes, "`", TextType.CODE_TEXT)
     return nodes
+
+def extract_title(markdown):
+    lines = markdown.split("\n")
+    for line in lines:
+        if line.startswith("# "):
+            return line[2:].strip()
+    raise Exception("No title found in markdown")

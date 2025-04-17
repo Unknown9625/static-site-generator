@@ -6,6 +6,7 @@ import shutil
 print("Hello, World!")
 
 from textnode import TextNode, TextType
+from generate import generate_page
 
 def copy_static_to_public():
     print("Starting to copy static files")
@@ -46,10 +47,15 @@ def main():
     # Create a TextNode instance
     text_node = TextNode("Hello, World!", TextType.BOLD_TEXT, None)
     
-    # Print the TextNode instance
-    print(text_node)
-
     copy_static_to_public()
+
+    content_path = "content/index.md"
+    template_path = "template.html"
+    dest_path = "public/index.html"
+
+    print("Starting HTML page generation")
+    generate_page(content_path, template_path, dest_path)
+    print("HTML page generation completed")
 
 if __name__ == "__main__":
     main()
