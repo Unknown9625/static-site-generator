@@ -6,7 +6,7 @@ import shutil
 print("Hello, World!")
 
 from textnode import TextNode, TextType
-from generate import generate_page
+from generate import generate_page_recursive
 
 def copy_static_to_public():
     print("Starting to copy static files")
@@ -49,13 +49,13 @@ def main():
     
     copy_static_to_public()
 
-    content_path = "content/index.md"
+    dir_path_content = "content"
     template_path = "template.html"
-    dest_path = "public/index.html"
+    dest_dir_path = "public"
 
-    print("Starting HTML page generation")
-    generate_page(content_path, template_path, dest_path)
-    print("HTML page generation completed")
+    print("Starting HTML generation for all pages")
+    generate_page_recursive(dir_path_content, template_path, dest_dir_path)
+    print("HTML generation for all pages completed")
 
 if __name__ == "__main__":
     main()
