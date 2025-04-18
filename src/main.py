@@ -2,13 +2,14 @@
 
 import os
 import shutil
+import sys
 
 print("Hello, World!")
 
 from textnode import TextNode, TextType
 from generate import generate_page_recursive
 
-def copy_static_to_public():
+def copy_static_to_docs():
     print("Starting to copy static files")
 
     if not os.path.exists("static"):
@@ -17,12 +18,12 @@ def copy_static_to_public():
     
     print(f"Contents of static directory: {os.listdir('static')}")
 
-    if os.path.exists("public"):
-        print("Removing existing public directory.")
-        shutil.rmtree("public")
+    if os.path.exists("docs"):
+        print("Removing existing docs directory.")
+        shutil.rmtree("docs")
     
-    print("Creating public directory.")
-    os.mkdir("public")
+    print("Creating docs directory.")
+    os.mkdir("docs")
     
     def recursive_copy(src, dst):
         print(f"Copying from {src} to {dst}")
@@ -38,23 +39,25 @@ def copy_static_to_public():
                 os.mkdir(d)
                 recursive_copy(s, d)
 
-    recursive_copy("static", "public")
-    print("Static files copied to public directory.")
-    print(f"Contents of public directory: {os.listdir('public')}")
+    recursive_copy("static", "docs")
+    print("Static files copied to docs directory.")
+    print(f"Contents of docs directory: {os.listdir('docs')}")
 
 
 def main():
-    # Create a TextNode instance
+    basepath = sys.argv[1] if len(sys.argv) > 1 else '/'
+    print(f"Using basepath: {basepath}")
+
     text_node = TextNode("Hello, World!", TextType.BOLD_TEXT, None)
     
-    copy_static_to_public()
+    copy_static_to_docs()
 
     dir_path_content = "content"
     template_path = "template.html"
-    dest_dir_path = "public"
+    dest_dir_path = "docs"
 
     print("Starting HTML generation for all pages")
-    generate_page_recursive(dir_path_content, template_path, dest_dir_path)
+    generate_page_recursive(dir_path_content, template_path, dest_dir_path, basepath)
     print("HTML generation for all pages completed")
 
 if __name__ == "__main__":
